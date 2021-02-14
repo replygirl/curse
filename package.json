@@ -29,9 +29,7 @@
   "files": [
     "dist/**/*"
   ],
-  "dependencies": {
-    "change-case": "^4.1.1"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=12.x"
   }
