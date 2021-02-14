@@ -17,8 +17,7 @@ const isString = x => typeof x === 'string'
 
 const strings = curse(foo, {
   arr: x => x.filter(isString),
-  obj: x => Object.values(x),
-  prim: isString
+  obj: x => Object.values(x).filter(isString).flat()
 })
 ```
 
