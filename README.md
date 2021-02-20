@@ -23,7 +23,7 @@ const strings = curse(foo, {
 
 ### Handlers
 
-All keys and values can be transformed with handlers of type `(x: T, k?: string) => any`. `k` is the key of the parent object
+All keys and values can be transformed with handlers of type `(x: T, kp?: string) => any`. `kp` is the keypath from the root object
 
 - `arr` will be called on every array, after cursing its values
 - `obj` will be called on every non-null object, after cursing its property values

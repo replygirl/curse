@@ -1,14 +1,14 @@
 export interface CurseHandlers {
-  arr: (x: any[], k?: string) => any
-  obj: (x: Record<any, any>, k?: string) => any
-  key: (x: string, k?: string) => string
-  val: (x: Exclude<any, any[] | object>, k?: string) => any
+  arr: (x: any[], kp?: string) => any
+  obj: (x: Record<any, any>, kp?: string) => any
+  key: (x: string, kp?: string) => string
+  val: (x: Exclude<any, any[] | object>, kp?: string) => any
 }
 
 type Curse<T = any, R = undefined> = (
   x: T,
   { arr, obj, key, val }: Partial<CurseHandlers>,
-  pk?: string
+  kp?: string
 ) => R extends undefined
   ? typeof x extends any[]
     ? ReturnType<Exclude<typeof arr, undefined>>
@@ -29,14 +29,18 @@ const curse = <T = any, R = undefined>(
     key = x => x,
     val = x => x
   }: Partial<CurseHandlers> = {},
-  pk?: string
+  kp?: string
 ): ReturnType<Curse<T, R>> => {
   const y = Array.isArray(x)
     ? arr(
         x.map((y, i) =>
-          curse<typeof y>(y, { arr, obj, key, val }, `${pk}.${i}`)
+          curse<typeof y>(
+            y,
+            { arr, obj, key, val },
+            `${kp}${kp ? '.' : ''}${i}`
+          )
         ),
-        pk
+        kp
       )
     : typeof x === 'object' && x != null
     ? obj(
@@ -46,14 +50,14 @@ const curse = <T = any, R = undefined>(
             [key(k)]: curse<typeof v>(
               v,
               { arr, obj, key, val },
-              `${pk}.${key(k)}`
+              `${kp}${kp ? '.' : ''}${key(k)}`
             )
           }),
           {}
         ),
-        pk
+        kp
       )
-    : val(x, pk)
+    : val(x, kp)
 
   if (typeof y === 'object' && y != null)
     y.curse = <R = undefined>(handlers: Partial<CurseHandlers> = {}) =>
