@@ -12,7 +12,17 @@
     "type": "git",
     "url": "https://github.com/replygirl/curse.git"
   },
-  "keywords": [],
+  "keywords": [
+    "recursive",
+    "recursion",
+    "deep",
+    "transform",
+    "search",
+    "manipulate",
+    "object",
+    "array",
+    "nested"
+  ],
   "author": {
     "name": "replygirl",
     "email": "moon@moon.fyi"

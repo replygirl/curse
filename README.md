@@ -1,6 +1,6 @@
 # curse
 
-Recursively, whatever
+Recursively transform, search, or whatever else you wanna do to objects, arrays, and primitive values
 
 ## Installation
 
@@ -23,9 +23,12 @@ const strings = curse(foo, {
 
 ### Handlers
 
+All keys and values can be transformed with handlers of type `(x: T, k?: string) => any`. `k` is the key of the parent object
+
 - `arr` will be called on every array, after cursing its values
 - `obj` will be called on every non-null object, after cursing its property values
-- `prim` will be called on every array, null, or non-object
+- `key` will be called on every key of every non-null object
+- `val` will be called on every array, null, or non-object
 
 ## License
 
