@@ -37,9 +37,9 @@ const curse = <T = any, R = undefined>(
         pk
       )
     : typeof x === 'object' && x != null
-    ? {
-        ...obj(
-          Object.entries(x).reduce(
+    ? obj(
+        {
+          ...Object.entries(x).reduce(
             (a, [k, v]) => ({
               ...a,
               [key(k)]: curse<typeof v>(
@@ -50,11 +50,11 @@ const curse = <T = any, R = undefined>(
             }),
             {}
           ),
-          pk
-        ),
-        curse: (handlers: Partial<CurseHandlers> = {}) =>
-          curse<T>(x, handlers)
-      }
+          curse: (handlers: Partial<CurseHandlers> = {}) =>
+            curse<T>(x, handlers)
+        },
+        pk
+      )
     : val(x, pk)
 
 const _default = <T = any, R = undefined>(
