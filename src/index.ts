@@ -50,9 +50,8 @@ const curse = <T = any, R = undefined>(
             }),
             {}
           ),
-          curse: (
-            handlers: Partial<CurseHandlers> = { arr, obj, key, val }
-          ) => curse<T>(x, handlers)
+          curse: (handlers: Partial<CurseHandlers> = {}) =>
+            curse<T>(x, handlers)
         },
         pk
       )
