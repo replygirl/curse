@@ -21,6 +21,11 @@ interface Cursable<T = any, R = undefined> {
   curse: (handlers: Partial<CurseHandlers>) => ReturnType<Curse<T, R>>
 }
 
+const createKeypath = (
+  acc: string | null | undefined,
+  cur: string | number
+) => `${acc ?? ''}${acc ? '.' : ''}${cur}`
+
 const curse = <T = any, R = undefined>(
   x: T,
   {
@@ -37,7 +42,7 @@ const curse = <T = any, R = undefined>(
           curse<typeof y>(
             y,
             { arr, obj, key, val },
-            `${kp}${kp ? '.' : ''}${i}`
+            createKeypath(kp, i)
           )
         ),
         kp
@@ -50,7 +55,7 @@ const curse = <T = any, R = undefined>(
             [key(k)]: curse<typeof v>(
               v,
               { arr, obj, key, val },
-              `${kp}${kp ? '.' : ''}${key(k)}`
+              createKeypath(kp, key(k))
             )
           }),
           {}
