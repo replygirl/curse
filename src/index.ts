@@ -30,34 +30,31 @@ const curse = <T = any, R = undefined>(
     val = x => x
   }: Partial<CurseHandlers> = {},
   pk?: string
-): ReturnType<Curse<T, R>> =>
-  Array.isArray(x)
+): ReturnType<Curse<T, R>> => {
+  const y = Array.isArray(x)
     ? arr(
         x.map(y => curse<typeof y>(y, { arr, obj, key, val }, pk)),
         pk
       )
     : typeof x === 'object' && x != null
     ? obj(
-        (x => ({
-          ...x,
-          curse: (handlers: Partial<CurseHandlers> = {}) =>
-            curse<typeof x>(x, handlers)
-        }))(
-          Object.entries(x).reduce(
-            (a, [k, v]) => ({
-              ...a,
-              [key(k)]: curse<typeof v>(
-                v,
-                { arr, obj, key, val },
-                key(k)
-              )
-            }),
-            {}
-          )
+        Object.entries(x).reduce(
+          (a, [k, v]) => ({
+            ...a,
+            [key(k)]: curse<typeof v>(v, { arr, obj, key, val }, key(k))
+          }),
+          {}
         ),
         pk
       )
     : val(x, pk)
+
+  if (typeof y === 'object' && y != null)
+    y.curse = <R = undefined>(handlers: Partial<CurseHandlers> = {}) =>
+      curse<typeof y, R>(y, handlers)
+
+  return y
+}
 
 const _default = <T = any, R = undefined>(
   x: T,
