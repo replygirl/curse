@@ -33,7 +33,9 @@ const curse = <T = any, R = undefined>(
 ): ReturnType<Curse<T, R>> => {
   const y = Array.isArray(x)
     ? arr(
-        x.map(y => curse<typeof y>(y, { arr, obj, key, val }, pk)),
+        x.map((y, i) =>
+          curse<typeof y>(y, { arr, obj, key, val }, `${pk}.${i}`)
+        ),
         pk
       )
     : typeof x === 'object' && x != null
@@ -41,7 +43,11 @@ const curse = <T = any, R = undefined>(
         Object.entries(x).reduce(
           (a, [k, v]) => ({
             ...a,
-            [key(k)]: curse<typeof v>(v, { arr, obj, key, val }, key(k))
+            [key(k)]: curse<typeof v>(
+              v,
+              { arr, obj, key, val },
+              `${pk}.${key(k)}`
+            )
           }),
           {}
         ),
