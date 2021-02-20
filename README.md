@@ -30,6 +30,10 @@ All keys and values can be transformed with handlers of type `(x: T, k?: string)
 - `key` will be called on every key of every non-null object
 - `val` will be called on every array, null, or non-object
 
+### Chaining
+
+Any returned object can be cursed again with `.curse({ arr?, obj?, key?, val? })`
+
 ## License
 
 [ISC (c) 2021 replygirl](https://github.com/replygirl/change-case-object/blob/main/LICENSE.md)
