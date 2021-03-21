@@ -40,7 +40,7 @@ export const wish = async <T = any, R = undefined>(
       )
     : typeof x === 'object' && x != null
       ? await obj(
-          (await Promise.all(Object.entries(x).map(async ([k, v]) =>
+          await (await Promise.all(Object.entries(x).map(async ([k, v]) =>
             [await key(k), v]
           ))).reduce(
             async (a, [k, v]) => ({
