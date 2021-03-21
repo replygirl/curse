@@ -13,11 +13,19 @@ yarn add @replygirl/curse
 ```js
 import curse from '@replygirl/curse'
 
-const isString = x => typeof x === 'string'
+const fooValid = curse(foo, {
+  arr: x => x.filter(isValid),
+  obj: x => Object.values(x).flat().filter(isValid)
+})
+```
 
-const strings = curse(foo, {
-  arr: x => x.filter(isString),
-  obj: x => Object.values(x).flat().filter(isString)
+#### Async
+
+```js
+import { wish } from '@replygirl/curse'
+
+const fooHydrated = await wish(foo, {
+  val: async x => isValid(x) ? await doSomething(x) : x
 })
 ```
 
@@ -32,7 +40,16 @@ All keys and values can be transformed with handlers of type `(x: T, kp?: string
 
 ### Chaining
 
-Any returned object can be cursed again with `.curse({ arr?, obj?, key?, val? })`
+Any returned object can be cursed again with `.curse({ arr?, obj?, key?, val? })` or `.wish({ arr?, obj?, key?, val? })`:
+
+```js
+import curse, { wish } from '@replygirl/curse'
+
+const fooData = await curse(foo, {
+  arr: x => x.filter(isValid),
+  obj: x => Object.values(x).flat().filter(isValid)
+}).wish({ val: doSomething })
+```
 
 ## License
 
