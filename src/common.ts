@@ -37,7 +37,7 @@ export const attachChainables = <
 ): Async extends true
   ? PromiseType<ReturnType<Wish<T, R>>>
   : ReturnType<Curse<T, R>> => {
-  if (typeof x === 'object' && x != null)
+  if (typeof x === 'object' && x != null) {
     // @ts-ignore
     x.curse =
       <R = undefined>(handlers: Partial<CurseHandlers> = {}) =>
@@ -46,6 +46,7 @@ export const attachChainables = <
     x.wish =
       <R = undefined>(handlers: Partial<WishHandlers> = {}) =>
         wish<typeof x, R>(x, handlers)
+  }
 
   return x
 }
