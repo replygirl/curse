@@ -39,23 +39,23 @@ export const wish = async <T = any, R = undefined>(
         kp
       )
     : typeof x === 'object' && x != null
-    ? await obj(
-        (await Promise.all(Object.entries(x).map(async ([k, v]) =>
-          [await key(k), v]
-        ))).reduce(
-          async (a, [k, v]) => ({
-            ...a,
-            [k]: await wish<typeof v>(
-              v,
-              { arr, obj, key, val },
-              createKeypath(kp, k)
-            )
-          }),
-          {}
-        ),
-        kp
-      )
-    : await val(x, kp)
+      ? await obj(
+          (await Promise.all(Object.entries(x).map(async ([k, v]) =>
+            [await key(k), v]
+          ))).reduce(
+            async (a, [k, v]) => ({
+              ...await a,
+              [k]: await wish<typeof v>(
+                v,
+                { arr, obj, key, val },
+                createKeypath(kp, k)
+              )
+            }),
+            Promise.resolve({})
+          ),
+          kp
+        )
+      : await val(x, kp)
 )
 
 const _default = async <T = any, R = undefined>(
