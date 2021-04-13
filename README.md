@@ -34,6 +34,21 @@ All keys and values can be transformed with handlers of type `(x: T, kp?: string
 
 Any returned object can be cursed again with `.curse({ arr?, obj?, key?, val? })`
 
+## Examples
+
+### `deepIncludes(x: any, q: string)`
+
+```js
+const deepIncludes = (x, q) =>
+  curse(x, {
+    arr: x => x?.includes('__MATCH__') ? '__MATCH__' : x,
+    obj: x =>
+      Object.entries(x).flat().includes('__MATCH__') ? '__MATCH__' : x,
+    key: x => x === q ? '__MATCH__' : x,
+    val: x => x === q ? '__MATCH__' : x
+  }) === '__MATCH__'
+```
+
 ## License
 
 [ISC (c) 2021 replygirl](https://github.com/replygirl/change-case-object/blob/main/LICENSE.md)
